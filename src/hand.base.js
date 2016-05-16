@@ -517,8 +517,9 @@
     // All mouse events are affected by touch fallback
     function applySimpleEventTunnels(nameGenerator, eventGenerator) {
         ["pointerdown", "pointermove", "pointerup", "pointerover", "pointerout"].forEach(function (eventName) {
-            window.addEventListener(nameGenerator(eventName), function (evt) {
-                if (!touching && findEventRegisteredNode(evt.target, eventName))
+            var name = nameGenerator(eventName);
+            window.addEventListener(name, function (evt) {
+                if (!touching && findEventRegisteredNode(evt.target, eventName) && evt.type === name)
                     eventGenerator(evt, eventName, { bubbles: true });
             });
         });
